@@ -26,9 +26,12 @@ env:
   - ANSIBLE_HOST_KEY_CHECKING=False
 
 script:
-  - ansible-playbook tests/test.yml -v
   - >
     ansible-playbook tests/test.yml -v
+    -e docsschema_abspath="${TRAVIS_BUILD_DIR:?}/tests/schema.xml.crdtgeospatialrpt"
+  - >
+    ansible-playbook tests/test.yml -v
+    -e docsschema_abspath="${TRAVIS_BUILD_DIR:?}/tests/schema.xml.crdtgeospatialrpt"
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
