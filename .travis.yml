@@ -27,6 +27,11 @@ env:
 
 script:
   - ansible-playbook tests/test.yml -v
+  - >
+    ansible-playbook tests/test.yml -v
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
 
 after_failure:
   - sudo tail -n 100 /var/log/syslog
