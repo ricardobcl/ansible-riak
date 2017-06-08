@@ -25,6 +25,9 @@ riak_http_port:     8098
 riak_https_bind_ip: 0.0.0.0
 riak_https_port:    10011
 
+riak_solr_port:     8093
+riak_solr_jmx_port: 8985
+
 riak_ring_size:     64
 riak_backend:       bitcask
 riak_control:       'off'
@@ -73,6 +76,20 @@ riak_tune_disks:    false
 riak_tune_os:       false
 riak_scheduler:     noop
 
+
+# Create Solr schemas
+#
+#riak_search_schemas:
+#  myschema1: { file: '/etc/mycustomschema' }
+riak_search_schemas: {}
+
+# Create Solr indexes
+#
+#riak_search_indexes:
+#  myidx1: { schema: '{"schema":"myschema1"}' }
+#  myidx2: { schema: '{"schema":"myschema1"}' }
+#  myidx3: { schema: '{"schema":"_yz_default"}' }
+riak_search_indexes: {}
 
 # Create bucket types
 #
