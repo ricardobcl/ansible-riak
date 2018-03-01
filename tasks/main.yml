@@ -41,10 +41,18 @@
   template: "src={{ riak_shell_conf_template }} dest=/etc/riak/riak_shell.config owner=root group=root mode=0444"
   when: riak_package == "riak-ts" and riak_shell_nodes is defined
 
+- name: Remove Riak data to start with a clean state
+  file:
+    dest: /var/lib/riak
+    state: absent
+  when: riak_clean_state == 'true'
+
 - name: Reboot Riak to accept the new config and ensure it is enabled to start at bootup
-  service: name=riak enabled=yes state=restarted
+  # service: name=riak enabled=yes state=restarted
+  systemd: state=restarted daemon_reload=yes name=riak enabled=yes
   when: riak_init_system == 'system'
-  changed_when: False ## This is a workaround for not disrupting idempotency. The proper idempotency fix would be running the task only when the relevant config files changed.
+  # when: '(ansible_distribution_release == "xenial" or ansible_distribution_release == "jessie") and (riak_init_system == "system")'
+  # changed_when: False ## This is a workaround for not disrupting idempotency. The proper idempotency fix would be running the task only when the relevant config files changed.
 
 - name: Reboot Riak to accept the new config and ensure it is enabled to start at bootup
   command: sv restart riak

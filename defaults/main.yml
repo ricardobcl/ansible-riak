@@ -75,7 +75,7 @@ riak_physical_disks:
 riak_tune_disks:    false
 riak_tune_os:       false
 riak_scheduler:     noop
-
+riak_clean_state:   false
 
 # Create Solr schemas
 #
